@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>I Miss You a Lot 😢💕</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Bubblegum+Sans&display=swap" rel="stylesheet">
+  <!-- Leaflet CSS for the map -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-sA+e2FyvEN5x8fqvnE3mF1oCmXSu8wHwg1T4r2h2DpA="
+    crossorigin=""
+  />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Fredoka One','Bubblegum Sans', cursive, sans-serif;
+      background: linear-gradient(135deg, #ffe2ec, #ffccd5);
+      color: #333;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 3rem;
+      color: #d6336c;
+      text-shadow: 2px 2px #ffa3b1;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    #map {
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      margin: 0 auto 2rem;
+      border: 4px solid #ff80b3;
+      border-radius: 12px;
+    }
+    .footer {
+      font-size: 1.2rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>I miss you a lot! 😢💕</h1>
+  <p>Right now you’re in <strong>Monterrey, NL</strong><br/>
+     and I’m in <strong>McAllen, TX</strong>.</p>
+  <p>We’re about <strong><span id="distance">…</span> miles</strong> apart.</p>
+
+  <div id="map"></div>
+
+  <div class="footer">Counting down the days until you’re back 😌❤️</div>
+
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-o9N1j6U906w47xM4DRJzGt6yFv0H8dT4V1pz1LVuA0M="
+    crossorigin=""
+  ></script>
+  <script>
+    // Coordinates
+    const mcallen = [26.2034, -98.2300];
+    const monterrey = [25.6866, -100.3161];
+
+    // Haversine distance in miles
+    function haversine([lat1, lon1], [lat2, lon2]) {
+      const R = 6371; // km
+      const toRad = d => d * Math.PI/180;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat/2)**2
+              + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2))
+              * Math.sin(dLon/2)**2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const km = R * c;
+      return (km * 0.621371).toFixed(1);
+    }
+
+    // Display distance
+    document.getElementById('distance').textContent =
+      haversine(mcallen, monterrey);
+
+    // Initialize Leaflet map
+    const map = L.map('map').setView(
+      [ (mcallen[0]+monterrey[0])/2, (mcallen[1]+monterrey[1])/2 ],
+      6
+    );
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Add markers
+    L.marker(mcallen).addTo(map).bindPopup('McAllen, TX');
+    L.marker(monterrey).addTo(map).bindPopup('Monterrey, NL');
+  </script>
+</body>
+</html>
