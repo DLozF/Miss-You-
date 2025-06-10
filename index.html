@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>I Miss You, Andrea ❤️</title>
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Bubblegum+Sans&display=swap" rel="stylesheet" />
-  
+
   <!-- Leaflet CSS -->
   <link
     rel="stylesheet"
@@ -122,11 +122,9 @@
   ></script>
 
   <script>
-    // Coordinates
     const mcallen = [26.2034, -98.2300];
     const monterrey = [25.6866, -100.3161];
 
-    // Haversine distance
     function haversine([lat1, lon1], [lat2, lon2]) {
       const R = 6371;
       const toRad = deg => deg * Math.PI / 180;
@@ -134,36 +132,45 @@
       const dLon = toRad(lon2 - lon1);
       const a = Math.sin(dLat/2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2) ** 2;
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return (R * c * 0.621371).toFixed(1); // in miles
+      return (R * c * 0.621371).toFixed(1);
     }
 
     document.getElementById('distance').textContent = haversine(mcallen, monterrey);
 
-    // Day/night tile layer
     const hour = new Date().getHours();
-    const tileLayer = (hour >= 6 && hour < 18)
-      ? L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' })
-      : L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CartoDB' });
 
-    // Initialize map
+    const tileLayer = (hour >= 6 && hour < 18)
+      ? L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors',
+          maxZoom: 19
+        })
+      : L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+          attribution: '&copy; CartoDB',
+          subdomains: 'abcd',
+          maxZoom: 19
+        });
+
     const map = L.map('map', {
       center: [(mcallen[0] + monterrey[0]) / 2, (mcallen[1] + monterrey[1]) / 2],
       zoom: 6,
       layers: [tileLayer],
+      zoomControl: false,
+      scrollWheelZoom: false
     });
 
-    // Markers
     L.marker(mcallen).addTo(map).bindPopup("<b>Diego 💙</b><br>McAllen, TX").openPopup();
     L.marker(monterrey).addTo(map).bindPopup("<b>Andrea 💖</b><br>Monterrey, NL");
 
-    // Red line between them
     L.polyline([mcallen, monterrey], {
       color: 'red',
       weight: 3,
       dashArray: '6,4',
     }).addTo(map);
 
-    // Time updates
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 300);
+
     function updateTime() {
       const now = new Date();
       document.getElementById('current-time').textContent = now.toLocaleString('en-US', {
@@ -182,7 +189,6 @@
     updateTime();
     setInterval(updateTime, 1000);
 
-    // Floating hearts
     function createHeart() {
       const heart = document.createElement('div');
       heart.className = 'heart';
