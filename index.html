@@ -152,13 +152,7 @@
     <img src="images/snoopy.png" alt="Snoopy" class="snoopy" />
   </div>
 
-  <div class="slideshow">
-    <img src="images/1.png" class="slide active" alt="Photo 1" />
-    <img src="images/2.png" class="slide" alt="Photo 2" />
-    <img src="images/3.jpg" class="slide" alt="Photo 3" />
-    <img src="images/4.jpg" class="slide" alt="Photo 4" />
-    <img src="images/5.jpg" class="slide" alt="Photo 5" />
-  </div>
+  <div class="slideshow" id="slideshow"></div>
 
   <script>
     // Floating hearts
@@ -177,20 +171,28 @@
       setTimeout(createHeart, i * 150);
     }
 
-    // Slideshow
-    let index = 0;
-    const slides = document.querySelectorAll('.slide');
+    // Generate slideshow images dynamically
+    const totalPhotos = 40;
+    const slideshow = document.getElementById('slideshow');
+    const slides = [];
 
-    function showSlide() {
-      slides.forEach((slide, i) => {
-        slide.classList.remove('active');
-        if (i === index) slide.classList.add('active');
-      });
-
-      index = (index + 1) % slides.length;
+    for (let i = 1; i <= totalPhotos; i++) {
+      const img = document.createElement('img');
+      img.src = `images/Photo${i}.png`;
+      img.alt = `Photo ${i}`;
+      img.className = 'slide';
+      if (i === 1) img.classList.add('active');
+      slideshow.appendChild(img);
+      slides.push(img);
     }
 
-    setInterval(showSlide, 3000); // Change every 3s
+    // Slideshow logic
+    let index = 0;
+    setInterval(() => {
+      slides[index].classList.remove('active');
+      index = (index + 1) % slides.length;
+      slides[index].classList.add('active');
+    }, 3000);
   </script>
 </body>
 </html>
