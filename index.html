@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Te extraño Chiki ❤️</title>
+  <title>Te extraño chiki❤️</title>
   <style>
     * {
       margin: 0;
@@ -20,7 +20,7 @@
       align-items: center;
       justify-content: flex-start;
       padding: 20px;
-      overflow-x: hidden;
+      overflow: hidden;
       position: relative;
     }
 
@@ -44,24 +44,33 @@
       margin-bottom: 20px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      max-width: 1000px;
-      margin-top: 20px;
+    .slideshow {
+      position: relative;
+      width: 90%;
+      max-width: 500px;
+      height: auto;
       z-index: 2;
     }
 
-    .grid img {
+    .slide {
+      display: none;
       width: 100%;
       border-radius: 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
+      position: absolute;
+      top: 0;
+      left: 0;
+      animation: fade 1s ease-in-out;
     }
 
-    .grid img:hover {
-      transform: scale(1.05);
+    .slide.active {
+      display: block;
+      position: relative;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .hearts {
@@ -124,8 +133,13 @@
       .main-title {
         font-size: 2.5rem;
       }
+
       .snoopy {
         max-width: 80px;
+      }
+
+      .slideshow {
+        max-width: 90vw;
       }
     }
   </style>
@@ -134,19 +148,20 @@
   <div class="hearts" id="hearts"></div>
 
   <div class="container">
-    <h1 class="main-title">Te extraño Chiki 💖</h1>
+    <h1 class="main-title">Te Extraño Chiki 💖</h1>
     <img src="images/snoopy.png" alt="Snoopy" class="snoopy" />
   </div>
 
-  <div class="grid">
-    <img src="images/1.jpg" alt="Us 1" />
-    <img src="images/2.jpg" alt="Us 2" />
-    <img src="images/3.jpg" alt="Us 3" />
-    <img src="images/4.jpg" alt="Us 4" />
-    <img src="images/5.jpg" alt="Us 5" />
+  <div class="slideshow">
+    <img src="images/1.png" class="slide active" alt="Photo 1" />
+    <img src="images/2.png" class="slide" alt="Photo 2" />
+    <img src="images/3.jpg" class="slide" alt="Photo 3" />
+    <img src="images/4.jpg" class="slide" alt="Photo 4" />
+    <img src="images/5.jpg" class="slide" alt="Photo 5" />
   </div>
 
   <script>
+    // Floating hearts
     function createHeart() {
       const heart = document.createElement('div');
       heart.className = 'heart';
@@ -161,6 +176,21 @@
     for (let i = 0; i < 15; i++) {
       setTimeout(createHeart, i * 150);
     }
+
+    // Slideshow
+    let index = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide() {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        if (i === index) slide.classList.add('active');
+      });
+
+      index = (index + 1) % slides.length;
+    }
+
+    setInterval(showSlide, 3000); // Change every 3s
   </script>
 </body>
 </html>
