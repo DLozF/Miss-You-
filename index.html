@@ -3,196 +3,165 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>I Miss You, Andrea ❤️</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Bubblegum+Sans&display=swap" rel="stylesheet" />
-
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-sA+e2FyvEN5x8fqvnE3mF1oCmXSu8wHwg1T4r2h2DpA=" crossorigin=""/>
-
+  <title>I Miss You Chiki ❤️</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Fredoka One', 'Bubblegum Sans', cursive, sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      padding: 2rem;
+      background: linear-gradient(135deg, #87CEEB 0%, #F5F5DC 50%, #FFB6C1 100%);
+      font-family: 'Georgia', serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .container {
       text-align: center;
+      z-index: 2;
+      position: relative;
     }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
+
+    .main-title {
+      font-size: 3.5rem;
+      color: #2c5aa0;
+      margin-bottom: 20px;
+      text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+      animation: pulse 2s ease-in-out infinite;
     }
-    p {
-      font-size: 1.1rem;
-      opacity: 0.9;
+
+    .snoopy {
+      max-width: 120px;
+      animation: bounce 2s ease-in-out infinite;
+      margin-bottom: 20px;
     }
-    #map {
-      height: 400px;
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      max-width: 1000px;
+      margin-top: 20px;
+      z-index: 2;
+    }
+
+    .grid img {
       width: 100%;
-      max-width: 800px;
-      margin: 2rem auto;
       border-radius: 20px;
-      border: 4px solid #ff80b3;
-      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
     }
-    .message {
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(8px);
-      padding: 2rem;
-      margin: 2rem auto;
-      border-radius: 20px;
-      max-width: 700px;
-      line-height: 1.6;
+
+    .grid img:hover {
+      transform: scale(1.05);
     }
-    .message h2 {
-      color: #ff6b6b;
-      margin-bottom: 1rem;
-    }
-    .footer {
-      margin-top: 1.5rem;
-      font-size: 1rem;
-      opacity: 0.7;
-    }
-    #current-time {
-      margin-top: 1rem;
-      font-size: 1rem;
-    }
-    .heart {
-      position: absolute;
-      color: rgba(255, 107, 107, 0.6);
-      font-size: 20px;
-      animation: float 6s ease-in-out infinite;
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       z-index: 1;
     }
-    .hearts {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      pointer-events: none;
+
+    .heart {
+      position: absolute;
+      color: #d81b60;
+      font-size: 25px;
+      animation: float 4s ease-in-out infinite;
+      opacity: 0.8;
     }
+
+    .heart:nth-child(odd) {
+      color: #2c5aa0;
+      animation-delay: -2s;
+    }
+
+    .heart:nth-child(3n) {
+      color: #FFB6C1;
+      font-size: 20px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-20px); }
+      60% { transform: translateY(-10px); }
+    }
+
     @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      25% { transform: translateY(-20px) rotate(5deg); }
-      50% { transform: translateY(-10px) rotate(-5deg); }
-      75% { transform: translateY(-15px) rotate(3deg); }
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-title {
+        font-size: 2.5rem;
+      }
+      .snoopy {
+        max-width: 80px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="hearts" id="hearts"></div>
 
-  <h1>I Miss You So Much, Andrea ❤️</h1>
-  <p>Distance means nothing when you mean everything.</p>
-  <p>We're about <strong><span id="distance">...</span> miles</strong> apart.</p>
-
-  <div id="map"></div>
-
-  <p id="current-time"></p>
-  <p id="time-status"></p>
-
-  <div class="message">
-    <h2>From Diego, with love 💌</h2>
-    <p>Every second without you feels like forever. Monterrey may be just a few hours away, but without you here, it feels like a million miles.</p>
-    <p>I miss the way you smile, the way you talk, and how everything feels right when I’m with you.</p>
-    <p>I hope you’re having an amazing time in Monterrey. Just know I’m counting down the days until you're back in McAllen with me.</p>
-    <p><strong>I love you more than words can explain. Come home soon, mi amor. 💕</strong></p>
+  <div class="container">
+    <h1 class="main-title">I Miss You, Chiki 💖</h1>
+    <img src="resized_a8d6561c-7f71-4fef-b126-479bcac3aa08.png" alt="Snoopy" class="snoopy" />
   </div>
 
-  <div class="footer">Made with love from McAllen to Monterrey 🥺</div>
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-o9N1j6U906w47xM4DRJzGt6yFv0H8dT4V1pz1LVuA0M="
-    crossorigin=""></script>
+  <div class="grid">
+    <img src="resized_IMG_7137.jpg" alt="Cute us 1" />
+    <img src="resized_IMG_7171.jpg" alt="Cute us 2" />
+    <img src="resized_IMG_9767.jpg" alt="Cute us 3" />
+    <img src="resized_baaa6813-0e37-4c86-baf2-b6372ebfc538.png" alt="Snoopy cute" />
+  </div>
 
   <script>
-    const mcallen = [26.2034, -98.2300];
-    const monterrey = [25.6866, -100.3161];
-
-    function haversine([lat1, lon1], [lat2, lon2]) {
-      const R = 6371;
-      const toRad = deg => deg * Math.PI / 180;
-      const dLat = toRad(lat2 - lat1);
-      const dLon = toRad(lon2 - lon1);
-      const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return (R * c * 0.621371).toFixed(1);
-    }
-
-    document.getElementById('distance').textContent = haversine(mcallen, monterrey);
-
-    const hour = new Date().getHours();
-    const isDay = hour >= 6 && hour < 18;
-
-    const tileLayer = isDay
-      ? L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; OpenStreetMap contributors',
-          maxZoom: 19
-        })
-      : L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
-          attribution: '&copy; CartoDB',
-          subdomains: 'abcd',
-          maxZoom: 19
-        });
-
-    const map = L.map('map').setView([(mcallen[0] + monterrey[0]) / 2, (mcallen[1] + monterrey[1]) / 2], 6);
-    tileLayer.addTo(map);
-
-    L.marker(mcallen).addTo(map).bindPopup("<b>Diego 💙</b><br>McAllen, TX").openPopup();
-    L.marker(monterrey).addTo(map).bindPopup("<b>Andrea 💖</b><br>Monterrey, NL");
-
-    L.polyline([mcallen, monterrey], {
-      color: 'red',
-      weight: 3,
-      dashArray: '6,4',
-    }).addTo(map);
-
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 300);
-
-    function updateTime() {
-      const now = new Date();
-      document.getElementById('current-time').textContent = now.toLocaleString('en-US', {
-        timeZone: 'America/Chicago',
-        weekday: 'long',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      });
-
-      document.getElementById('time-status').textContent = isDay
-        ? "☀️ It's daytime — hope you're smiling right now!"
-        : "🌙 It's nighttime — sweet dreams, mi amor.";
-    }
-
-    updateTime();
-    setInterval(updateTime, 1000);
-
+    // Create floating hearts
     function createHeart() {
       const heart = document.createElement('div');
       heart.className = 'heart';
-      heart.textContent = '❤️';
-      heart.style.left = Math.random() * 100 + '%';
-      heart.style.animationDelay = Math.random() * 3 + 's';
-      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      heart.innerHTML = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
       document.getElementById('hearts').appendChild(heart);
-      setTimeout(() => heart.remove(), 6000);
+      setTimeout(() => heart.remove(), 5000);
     }
 
-    for (let i = 0; i < 10; i++) {
-      setTimeout(createHeart, i * 1000);
+    // Generate hearts periodically
+    setInterval(createHeart, 600);
+    for (let i = 0; i < 15; i++) {
+      setTimeout(createHeart, i * 150);
     }
-
-    setInterval(createHeart, 2000);
   </script>
 </body>
 </html>
