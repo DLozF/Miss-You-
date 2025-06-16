@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Te extraño chiki❤️</title>
+
+  <!-- Google Font: Quicksand -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
@@ -13,7 +17,7 @@
 
     body {
       background: linear-gradient(135deg, #87CEEB 0%, #F5F5DC 50%, #FFB6C1 100%);
-      font-family: 'Georgia', serif;
+      font-family: 'Quicksand', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -231,7 +235,7 @@
       slides[index].classList.remove('active');
       index = (index + 1) % slides.length;
       slides[index].classList.add('active');
-    }, 6000);
+    }, 5000); // 5 seconds between slides
   </script>
 </body>
 </html>
