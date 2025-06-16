@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Te extraño chiki❤️</title>
-
-  <!-- Google Font: Quicksand -->
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
-
   <style>
     * {
       margin: 0;
@@ -20,12 +17,44 @@
       font-family: 'Quicksand', sans-serif;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 20px;
+      justify-content: center;
       overflow: hidden;
       position: relative;
+    }
+
+    .envelope-container {
+      text-align: center;
+      animation: shake 1s infinite;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .envelope-container img {
+      width: 140px;
+    }
+
+    .envelope-text {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #2c5aa0;
+    }
+
+    @keyframes shake {
+      0% { transform: rotate(0); }
+      25% { transform: rotate(3deg); }
+      50% { transform: rotate(0deg); }
+      75% { transform: rotate(-3deg); }
+      100% { transform: rotate(0); }
+    }
+
+    #main-content {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 20px;
     }
 
     .container {
@@ -180,19 +209,27 @@
   </style>
 </head>
 <body>
-  <div class="hearts" id="hearts"></div>
-
-  <div class="note">Caught you chiki 🤗</div>
-
-  <div class="container">
-    <h1 class="main-title">Te Extraño Chiki 💖</h1>
-    <img src="images/snoopy.png" alt="Snoopy" class="snoopy" />
+  <div class="envelope-container" id="envelope">
+    <img src="images/envelope.png" alt="Envelope">
+    <div class="envelope-text">Click to open</div>
   </div>
 
-  <div class="slideshow" id="slideshow"></div>
+  <div id="main-content">
+    <div class="hearts" id="hearts"></div>
+    <div class="note">Caught you chiki 🤗</div>
+    <div class="container">
+      <h1 class="main-title">Te Extraño Chiki 💖</h1>
+      <img src="images/snoopy.png" alt="Snoopy" class="snoopy" />
+    </div>
+    <div class="slideshow" id="slideshow"></div>
+  </div>
 
   <script>
-    // Floating hearts
+    document.getElementById('envelope').addEventListener('click', () => {
+      document.getElementById('envelope').style.display = 'none';
+      document.getElementById('main-content').style.display = 'flex';
+    });
+
     function createHeart() {
       const heart = document.createElement('div');
       heart.className = 'heart';
@@ -208,7 +245,6 @@
       setTimeout(createHeart, i * 150);
     }
 
-    // Generate slideshow images dynamically
     const totalPhotos = 40;
     const slideshow = document.getElementById('slideshow');
     const slides = [];
@@ -223,13 +259,12 @@
       slides.push(img);
     }
 
-    // Slideshow logic
     let index = 0;
     setInterval(() => {
       slides[index].classList.remove('active');
       index = (index + 1) % slides.length;
       slides[index].classList.add('active');
-    }, 5000); // 5 seconds between slides
+    }, 5000);
   </script>
 </body>
 </html>
