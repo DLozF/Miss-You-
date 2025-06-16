@@ -117,8 +117,9 @@
       font-weight: bold;
       box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
       font-size: 1.1rem;
-      animation: pop 1s ease forwards;
       z-index: 5;
+      opacity: 0;
+      animation: fadeInOut 6s ease forwards;
     }
 
     @keyframes pulse {
@@ -149,18 +150,11 @@
       }
     }
 
-    @keyframes pop {
-      0% {
-        transform: scale(0.5);
-        opacity: 0;
-      }
-      80% {
-        transform: scale(1.1);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1);
-      }
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; }
     }
 
     @media (max-width: 768px) {
